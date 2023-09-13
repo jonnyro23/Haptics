@@ -47,10 +47,12 @@ public struct Haptics {
     }
 
     private static func generateSelection() {
+        Haptics.instance.selectionGenerator.prepare()
         Haptics.instance.selectionGenerator.selectionChanged()
     }
 
     private static func generate(_ notification: Haptics.Notification) {
+        Haptics.instance.notificationGenerator.prepare()
         switch notification {
         case .success:
             Haptics.instance.notificationGenerator.notificationOccurred(.success)
@@ -64,10 +66,13 @@ public struct Haptics {
     private static func generate(_ impact: Haptics.Impact) {
         switch impact {
         case .light:
+            Haptics.instance.impactGenerator.light.prepare()
             Haptics.instance.impactGenerator.light.impactOccurred()
         case .medium:
+            Haptics.instance.impactGenerator.medium.prepare()
             Haptics.instance.impactGenerator.medium.impactOccurred()
         case .heavy:
+            Haptics.instance.impactGenerator.heavy.prepare()
             Haptics.instance.impactGenerator.heavy.impactOccurred()
         }
     }
