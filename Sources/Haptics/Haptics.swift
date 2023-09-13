@@ -27,12 +27,22 @@ public struct Haptics {
         case heavy
     }
 
-    public static func prepare() {
-        Haptics.instance.selectionGenerator.prepare()
-        Haptics.instance.notificationGenerator.prepare()
-        Haptics.instance.impactGenerator.heavy.prepare()
-        Haptics.instance.impactGenerator.medium.prepare()
-        Haptics.instance.impactGenerator.light.prepare()
+    public static func prepare(_ feedback: Haptics.Feedback) {
+        switch feedback {
+        case .notifitcation(_):
+            Haptics.instance.notificationGenerator.prepare()
+        case .impact(let impact):
+            switch impact {
+            case .light:
+                Haptics.instance.impactGenerator.light.prepare()
+            case .medium:
+                Haptics.instance.impactGenerator.medium.prepare()
+            case .heavy:
+                Haptics.instance.impactGenerator.heavy.prepare()
+            }
+        case .selection:
+            Haptics.instance.selectionGenerator.prepare()
+        }
     }
 
     public static func generate(_ feedback: Haptics.Feedback) {
