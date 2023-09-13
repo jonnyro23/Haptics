@@ -21,33 +21,32 @@ public struct Haptics {
         case heavy
     }
     
-    func prepare() {
-        notificationGenerator.prepare()
-        impactGenerator.heavy.prepare()
-        impactGenerator.medium.prepare()
-        impactGenerator.light.prepare()
+    public static func prepare() {
+        Haptics.instance.notificationGenerator.prepare()
+        Haptics.instance.impactGenerator.heavy.prepare()
+        Haptics.instance.impactGenerator.medium.prepare()
+        Haptics.instance.impactGenerator.light.prepare()
     }
 
-    public func generate(_ notification: Haptics.Notification) {
-        notificationGenerator.prepare()
+    public static func generate(_ notification: Haptics.Notification) {
         switch notification {
         case .success:
-            notificationGenerator.notificationOccurred(.success)
+            Haptics.instance.notificationGenerator.notificationOccurred(.success)
         case .warning:
-            notificationGenerator.notificationOccurred(.warning)
+            Haptics.instance.notificationGenerator.notificationOccurred(.warning)
         case .error:
-            notificationGenerator.notificationOccurred(.error)
+            Haptics.instance.notificationGenerator.notificationOccurred(.error)
         }
     }
 
-    public func generate(_ impact: Haptics.Impact) {
+    public static func generate(_ impact: Haptics.Impact) {
         switch impact {
         case .light:
-            impactGenerator.light.impactOccurred()
+            Haptics.instance.impactGenerator.light.impactOccurred()
         case .medium:
-            impactGenerator.medium.impactOccurred()
+            Haptics.instance.impactGenerator.medium.impactOccurred()
         case .heavy:
-            impactGenerator.heavy.impactOccurred()
+            Haptics.instance.impactGenerator.heavy.impactOccurred()
         }
     }
     
