@@ -5,8 +5,12 @@ import UIKit
 public struct Haptics {
     private static var instance = Haptics()
 
-    private var notificationGenerator = UINotificationFeedbackGenerator()
-    private var selectionGenerator = UISelectionFeedbackGenerator()
+    private var notificationGenerator: UINotificationFeedbackGenerator {
+        UINotificationFeedbackGenerator()
+    }
+    private var selectionGenerator: UISelectionFeedbackGenerator {
+        UISelectionFeedbackGenerator()
+    }
     private var impactGenerator: ImpactFeedbackGenerator = .init()
 
     public enum Feedback {
@@ -91,9 +95,15 @@ public struct Haptics {
 // MARK: - ImpactFeedbackGenerator
 
 private struct ImpactFeedbackGenerator {
-    var light = UIImpactFeedbackGenerator(style: .light)
+    var light: UIImpactFeedbackGenerator {
+        UIImpactFeedbackGenerator(style: .light)
+    }
 
-    var medium = UIImpactFeedbackGenerator(style: .medium)
+    var medium: UIImpactFeedbackGenerator {
+        UIImpactFeedbackGenerator(style: .medium)
+    }
 
-    var heavy = UIImpactFeedbackGenerator(style: .heavy)
+    var heavy: UIImpactFeedbackGenerator {
+        UIImpactFeedbackGenerator(style: .heavy)
+    }
 }
