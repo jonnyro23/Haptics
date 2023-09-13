@@ -3,12 +3,18 @@ import UIKit
 // MARK: - Haptics
 
 public struct Haptics {
-    
-    static private var instance = Haptics()
-    
+    private static var instance = Haptics()
+
     private var notificationGenerator = UINotificationFeedbackGenerator()
+    private var selectionGenerator = UISelectionFeedbackGenerator()
     private var impactGenerator: ImpactFeedbackGenerator = .init()
-    
+
+    public enum Feedback {
+        case notifitcation(Notification)
+        case impact(Impact)
+        case selection
+    }
+
     public enum Notification {
         case success
         case warning
@@ -20,15 +26,31 @@ public struct Haptics {
         case medium
         case heavy
     }
-    
+
     public static func prepare() {
+        Haptics.instance.selectionGenerator.prepare()
         Haptics.instance.notificationGenerator.prepare()
         Haptics.instance.impactGenerator.heavy.prepare()
         Haptics.instance.impactGenerator.medium.prepare()
         Haptics.instance.impactGenerator.light.prepare()
     }
 
-    public static func generate(_ notification: Haptics.Notification) {
+    public static func generate(_ feedback: Haptics.Feedback) {
+        switch feedback {
+        case let .notifitcation(notification):
+            generate(notification)
+        case let .impact(impact):
+            generate(impact)
+        case .selection:
+            generateSelection()
+        }
+    }
+
+    private static func generateSelection() {
+        Haptics.instance.selectionGenerator.selectionChanged()
+    }
+
+    private static func generate(_ notification: Haptics.Notification) {
         switch notification {
         case .success:
             Haptics.instance.notificationGenerator.notificationOccurred(.success)
@@ -39,7 +61,7 @@ public struct Haptics {
         }
     }
 
-    public static func generate(_ impact: Haptics.Impact) {
+    private static func generate(_ impact: Haptics.Impact) {
         switch impact {
         case .light:
             Haptics.instance.impactGenerator.light.impactOccurred()
@@ -49,7 +71,6 @@ public struct Haptics {
             Haptics.instance.impactGenerator.heavy.impactOccurred()
         }
     }
-    
 }
 
 // MARK: - ImpactFeedbackGenerator
